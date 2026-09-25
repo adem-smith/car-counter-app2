@@ -36,5 +36,5 @@ if uploaded_file is not None:
           st.error(f"حدث خطأ في الاتصال بالـ API. الرمز: {response.status_code}")
 
       except Exception as e:
-        st.error(f- حدث خطأ غير متوقع: {e})
-    
+        st.error(f"حدث خطأ غير متوقع: {e}")
+          
