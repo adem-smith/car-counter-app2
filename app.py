@@ -2,7 +2,6 @@ import requests
 import streamlit as st
 
 API_URL = "https://predict-6ab6dea323cca3b85a97a905-dproatj77a-no.a.run.app"
-# تم تصحيح حرف الـ u ليصبح صغيراً كما تطبيقه في المنصة
 API_KEY = "ul_812b084ccba32bb0fd3313528bb9c70efe7c89e1"
 
 st.title("🚗 تطبيق عد السيارات بالذكاء الاصطناعي")
@@ -26,7 +25,9 @@ if uploaded_file is not None:
     with st.spinner("جاري إرسال الملف للنموذج وتحليل النتائج..."):
       try:
         files = {"file": uploaded_file.getvalue()}
-        headers = {"x-ultralytics-api-key": API_KEY}
+
+        # تجربة تمرير المفتاح كـ Authorization Header بالصيغة القياسية
+        headers = {"Authorization": f"Bearer {API_KEY}"}
 
         response = requests.post(API_URL, files=files, headers=headers)
 
