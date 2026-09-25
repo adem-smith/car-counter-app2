@@ -1,15 +1,15 @@
 import requests
 import streamlit as st
 
-# رابط نقطة النهاية (API Endpoint) الخاص بك من Ultralytics HUB
 API_URL = "https://predict-6ab6dea323cca3b85a97a905-dproatj77a-no.a.run.app"
+# وضع المفتاح الصحيح الذي أرسلته
+API_KEY = "Ul_812b084ccba32bb0fd3313528bb9c70efe7c89e1"
 
 st.title("🚗 تطبيق عد السيارات بالذكاء الاصطناعي")
 st.write(
-    "قم برفع صورة أو فيديو لتحليله ومعرفة عدد السيارات الموجودة باستخدام نموذجك المنشور!"
+    "قم برفع صورة أو فيديو لتحليله ومعرفة عدد السيارات الموجودة باستخدام نموذجك!"
 )
 
-# زر لرفع الملف
 uploaded_file = st.file_uploader(
     "اختر صورة أو فيديو...", type=["jpg", "jpeg", "png", "mp4"]
 )
@@ -26,9 +26,9 @@ if uploaded_file is not None:
     with st.spinner("جاري إرسال الملف للنموذج وتحليل النتائج..."):
       try:
         files = {"file": uploaded_file.getvalue()}
+        headers = {"x-ultralytics-api-key": API_KEY}
 
-        # إرسال الطلب مباشرة بدون الحاجة لمفتاح بعد أن أصبح النموذج عاماً
-        response = requests.post(API_URL, files=files)
+        response = requests.post(API_URL, files=files, headers=headers)
 
         if response.status_code == 200:
           result = response.json()
@@ -36,7 +36,7 @@ if uploaded_file is not None:
           st.json(result)
         else:
           st.error(
-              f"حدث خطأ في الاتصال بالـ API. الرمز: {response.status_code} -"
+              f"حدث خطأ في الاتصال. الرمز: {response.status_code} -"
               f" {response.text}"
           )
 
