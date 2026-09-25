@@ -1,5 +1,5 @@
-import cv2
 import numpy as np
+from PIL import Image
 import streamlit as st
 from ultralytics import YOLO
 
@@ -9,10 +9,8 @@ st.write(
 )
 
 
-# تحميل الموديل محلياً (تأكد أن اسم ملف الموديل يوافق الملف المرفوع عندك)
 @st.cache_resource
 def load_model():
-  # استبدل 'best.pt' باسم ملف الموديل الخاص بك إذا كان مختلفاً
   model = YOLO("best.pt")
   return model
 
@@ -31,27 +29,26 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
   if uploaded_file.type.startswith("image"):
-    image = np.array(Image.open(uploaded_file))
+    image = Image.open(uploaded_file)
     st.image(uploaded_file, caption="الصورة المرفوعة", use_container_width=True)
 
     if st.button("بدء التحليل والحساب"):
       with st.spinner("جاري تحليل الصورة بالذكاء الاصطناعي..."):
         results = model(image)
-        res_plotted = results[0].plot()  # رسم النتائج على الصورة
+        res_plotted = results[0].plot()  # مصفوفة الألوان من ألترايليتكس
 
-        # حساب عدد السيارات المكتشفة
+        # تحويل النتائج إلى صورة PIL لعرضها مباشرة بدون cv2
+        res_image = Image.fromarray(res_plotted[..., ::-1])
+
         car_count = len(results[0].boxes)
 
         st.success(f"تم التحليل بنجاح! عدد السيارات المكتشفة: {car_count}")
         st.image(
-            res_plotted,
+            res_image,
             caption="الصورة بعد التحليل والتحديد",
             use_container_width=True,
         )
 
   else:
     st.video(uploaded_file)
-    st.info(
-        "تحليل الفيديوهات يتطلب وقتاً أطول، جرب برفع صورة أولاً للتأكد من عمل"
-        " الموديل بشكل ممتاز!"
-)
+      
