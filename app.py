@@ -26,6 +26,8 @@ if uploaded_file is not None:
     with st.spinner("جاري إرسال الملف للنموذج وتحليل النتائج..."):
       try:
         files = {"file": uploaded_file.getvalue()}
+
+        # إرسال الطلب مباشرة بدون الحاجة لمفتاح بعد أن أصبح النموذج عاماً
         response = requests.post(API_URL, files=files)
 
         if response.status_code == 200:
@@ -33,7 +35,10 @@ if uploaded_file is not None:
           st.success("تم التحليل بنجاح!")
           st.json(result)
         else:
-          st.error(f"حدث خطأ في الاتصال بالـ API. الرمز: {response.status_code}")
+          st.error(
+              f"حدث خطأ في الاتصال بالـ API. الرمز: {response.status_code} -"
+              f" {response.text}"
+          )
 
       except Exception as e:
         st.error(f"حدث خطأ غير متوقع: {e}")
