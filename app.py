@@ -27,7 +27,7 @@ if uploaded_file is not None:
         files = {"file": uploaded_file.getvalue()}
 
         # تجربة تمرير المفتاح كـ Authorization Header بالصيغة القياسية
-        headers = {"Authorization": f"Bearer {API_KEY}"}
+        headers = {"x-ultralytics-api-key": API_KEY}
 
         response = requests.post(API_URL, files=files, headers=headers)
 
