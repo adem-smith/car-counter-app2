@@ -2,7 +2,7 @@ import requests
 import streamlit as st
 
 API_URL = "https://predict-6ab6dea323cca3b85a97a905-dproatj77a-no.a.run.app"
-API_KEY = "ul_812b084ccba32bb0fd3313528bb9c70efe7c89e1"
+API_KEY = "ul_91792a7d36f4e6a8fef451a2869a6ce90d07b622"
 
 st.title("🚗 تطبيق عد السيارات بالذكاء الاصطناعي")
 st.write(
@@ -26,7 +26,7 @@ if uploaded_file is not None:
       try:
         files = {"file": uploaded_file.getvalue()}
 
-        # تجربة تمرير المفتاح كـ Authorization Header بالصيغة القياسية
+        # استخدام المفتاح الجديد مع صيغة الـ Header الصحيحة لألترايليتكس
         headers = {"x-ultralytics-api-key": API_KEY}
 
         response = requests.post(API_URL, files=files, headers=headers)
