@@ -1,2 +1,4 @@
 streamlit
-requests
+ultralytics
+opencv-python-headless
+numpy
